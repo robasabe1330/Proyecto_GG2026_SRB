@@ -1,0 +1,143 @@
+---
+title: "Evaluación comparativa de metodologías de detección de inundación usando datos ópticos y radar en humedales estacionales"
+subtitle: "Proyecto de Geomática General"
+author: "Santiago Rodríguez Basabe"
+date: today
+lang: es
+
+format:
+  html:
+    css: styles.css
+  pdf:
+    documentclass: article
+    classoption: ["oneside"]
+    papersize: letter
+    fontsize: 11pt
+    linestretch: 1.15
+    geometry:
+      - top=2.7cm
+      - bottom=2.7cm
+      - left=2.8cm
+      - right=2.8cm
+    number-sections: false
+    toc: false
+    colorlinks: true
+    fig-pos: "H"
+    include-in-header: header.tex
+
+editor: visual
+---
+
+## 1. Introducción y justificación
+
+Los humedales cumplen funciones clave en la regulación hídrica, almacenamiento de carbono y soporte de biodiversidad. En Colombia, la Orinoquía concentra una proporción significativa de estos sistemas, destacándose la cuenca del río Bita como un complejo de alta importancia ecológica reconocido bajo la Convención Ramsar (Ramsar Convention Secretariat, 2016; Jaramillo & Estupiñán-Suárez, 2017). Sin embargo, el monitoreo de su dinámica hidrológica sigue siendo limitado, particularmente mediante metodologías replicables basadas en percepción remota.
+
+El uso de sensores ópticos, especialmente la misión Landsat, ha sido dominante en estudios de humedales debido a su cobertura temporal, resolución espacial y disponibilidad (Yuan et al., 2025). En este contexto, metodologías como la propuesta por Inman & Lyons (2020), basadas en composites temporales y umbrales espectrales dinámicos en la banda SWIR, han demostrado ser efectivas para el mapeo multitemporal de inundaciones.
+
+No obstante, estos métodos presentan limitaciones en regiones tropicales. La persistente cobertura nubosa y la humedad atmosférica afectan la calidad de los composites, introduciendo ruido y reduciendo la capacidad de discriminación espectral (Van doninck & Tuomisto, 2017; Wolski et al., 2017).
+
+En este contexto, los sensores SAR como Sentinel-1 ofrecen una alternativa relevante, al no depender de condiciones atmosféricas. La baja retrodispersión del agua facilita su detección, incluso en escenarios de alta nubosidad.
+
+Por lo anterior, este proyecto propone comparar ambos enfoques con el fin de evaluar su desempeño y complementariedad en el análisis multitemporal de humedales en la Orinoquía colombiana.
+
+## 2. Estado del arte
+
+El mapeo de humedales ha estado dominado por sensores ópticos como Landsat, permitiendo el desarrollo de metodologías basadas en análisis espectral (Frazier & Page, 2000; Li et al., 2022).
+
+Inman & Lyons (2020) proponen un enfoque basado en composites temporales y umbral dinámico en SWIR, ampliamente replicado gracias a su implementación en Google Earth Engine.
+
+Sin embargo, la cobertura nubosa y la variabilidad atmosférica afectan estos métodos, reduciendo su precisión en ambientes tropicales (Van doninck & Tuomisto, 2017; Wolski et al., 2017).
+
+En respuesta, estudios recientes han incorporado datos SAR, que permiten detectar agua independientemente de la nubosidad (Jafarzadeh et al., 2024).
+
+## 3. Objetivos
+
+### Objetivo general
+
+Comparar el desempeño de metodologías basadas en sensores ópticos y radar para la detección multitemporal de inundación en la cuenca del río Bita.
+
+### Objetivos específicos
+
+- Implementar el método basado en Landsat y umbral dinámico (Inman & Lyons, 2020).
+- Desarrollar una metodología equivalente con Sentinel-1.
+- Comparar ambos enfoques en exactitud, consistencia temporal y sensibilidad atmosférica.
+
+## 4. Área de estudio
+
+La cuenca del río Bita se ubica en el departamento del Vichada, en la Orinoquía colombiana, región que concentra aproximadamente 14.7 millones de hectáreas de humedales (Jaramillo Villa et al., 2015). De este total, cerca de 812.000 hectáreas corresponden a la cuenca del río Bita, cuya dinámica hidrológica está marcada por una fuerte estacionalidad (Lasso et al., 2014; Trujillo & Lasso, 2017).
+
+![Localización del área de estudio: cuenca del río Bita, Orinoquía colombiana.](img/figura1.png){fig-width=90% fig-alt="Mapa de localización de la cuenca del río Bita"}
+
+## 5. Fuentes de datos
+
+### Datos ópticos
+
+- Landsat 8 y 9, Colección 2, Tier 1.
+- Banda SWIR1 (SR_B6).
+- Periodo de análisis: 2015–2024.
+- Plataforma de procesamiento: Google Earth Engine.
+
+### Datos radar
+
+- Sentinel-1 GRD.
+- Polarizaciones: VV y VH.
+- Periodo de análisis: 2015–2024.
+- Plataforma de procesamiento: Google Earth Engine.
+
+### Datos auxiliares
+
+- Imágenes Sentinel-2 para validación visual.
+- Límites de la cuenca hidrográfica.
+- Polígonos de referencia para zonas húmedas y secas.
+
+## 6. Metodología
+
+### 6.1 Enfoque óptico (Landsat)
+
+- Enmascaramiento de nubes y sombras.
+- Relleno de valores faltantes.
+- Generación de composites de mediana por temporada.
+- Definición de end-members mediante polígonos de referencia.
+- Cálculo de umbral dinámico en la banda SWIR.
+- Clasificación binaria de inundación.
+
+### 6.2 Enfoque radar (Sentinel-1)
+
+- Selección de imágenes por polarización.
+- Conversión a retrodispersión sigma0.
+- Generación de composites temporales equivalentes.
+- Identificación de agua mediante baja retrodispersión.
+- Clasificación binaria por umbral.
+
+### 6.3 Comparación de resultados
+
+- Área inundada por temporada.
+- Distribución espacial de la inundación.
+- Consistencia interanual.
+- Desempeño bajo condiciones de alta nubosidad.
+
+## Referencias
+
+Frazier, P. S., & Page, K. J. (2000). Water body detection and delineation with Landsat TM data. *Photogrammetric Engineering and Remote Sensing, 66*, 1461–1467.
+
+Inman, V. L., & Lyons, M. B. (2020). Automated inundation mapping over large areas using Landsat data and Google Earth Engine. *Remote Sensing, 12*(8). https://doi.org/10.3390/rs12081348
+
+Jafarzadeh, H., Mahdianpari, M., Gill, E. W., & Mohammadimanesh, F. (2024). Enhancing wetland mapping: Integrating Sentinel-1/2, GEDI data, and Google Earth Engine. *Sensors, 24*(5). https://doi.org/10.3390/s24051651
+
+Jaramillo, Ú., & Estupiñán-Suárez, L. M. (2017). Humedales al rescate de la sociedad. En *Biodiversidad 2016. Estado y tendencias de la biodiversidad continental de Colombia* (pp. 59–60). Instituto de Investigación de Recursos Biológicos Alexander von Humboldt. https://doi.org/10.21068/B001.2016.412
+
+Jaramillo Villa, U., Cortés-Duque, J., & Flórez-Ayala, C. (2015). *Colombia anfibia: un país de humedales*. Instituto Humboldt Colombia; Minhacienda; Fondo Adaptación.
+
+Lasso, C., et al. (2014). *Humedales de la Orinoquia* (pp. 97–280).
+
+Li, A., Song, K., Chen, S., Mu, Y., Xu, Z., & Zeng, Q. (2022). Mapping African wetlands for 2020 using multiple spectral, geo-ecological features and Google Earth Engine. *ISPRS Journal of Photogrammetry and Remote Sensing, 193*, 252–268. https://doi.org/10.1016/j.isprsjprs.2022.09.009
+
+Ramsar Convention Secretariat. (2016). *An Introduction to the Ramsar Convention on Wetlands*.
+
+Trujillo, F., & Lasso, C. A. (2017). *Biodiversidad del río Bita, Vichada, Colombia*. Instituto de Investigación de Recursos Biológicos Alexander von Humboldt.
+
+Van doninck, J., & Tuomisto, H. (2017). Influence of compositing criterion and data availability on pixel-based Landsat TM/ETM+ image compositing over Amazonian forests. *IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 10*(3), 857–867. https://doi.org/10.1109/JSTARS.2016.2619695
+
+Wolski, P., Murray-Hudson, M., Thito, K., & Cassidy, L. (2017). Keeping it simple: Monitoring flood extent in large data-poor wetlands using MODIS SWIR data. *International Journal of Applied Earth Observation and Geoinformation, 57*, 224–234. https://doi.org/10.1016/j.jag.2017.01.005
+
+Yuan, S., Liang, X., Lin, T., Chen, S., Liu, R., Wang, J., Zhang, H., & Gong, P. (2025). *A comprehensive review of remote sensing in wetland classification and mapping*.
